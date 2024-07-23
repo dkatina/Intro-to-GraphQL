@@ -1,0 +1,68 @@
+
+#Define GraphQL Schema
+
+type Query {
+    posts: [Post] #All posts
+    post(id: ID!): Post
+    comments: [Comment]
+    comment(id: ID!): Comment
+}
+
+type Mutation {
+    addPost(title: String!, content: String!, author: String!): Post!
+    addComment(postId: ID!, content: String@, author: String!): Comment!
+}
+
+type Post {
+    id: ID!
+    title: String!
+    content: String!
+    author: String!
+    comments: [Comment!]
+}
+
+type Comment {
+    id: ID!
+    content: String!
+    author: String!
+}
+
+# Sample Queries
+
+#Full query of all posts
+query {
+    posts{
+        id
+        title
+        content
+        author
+        comments{
+            id
+            content
+            author
+        }
+    }
+}
+
+#Stripped query for all posts with just the text
+
+query {
+    posts{
+        title
+        content
+        comments {
+            content
+        }
+    }
+}
+
+# Sample Mutations
+
+mutation{
+    addPost(title: "I love GraphQL", content: "It's so freaking flexible", author: "Jane Smith"){
+        title
+    }
+    addComment(postId: "1", content: "I hate GraphQL", author: "Harsh"){
+        content
+    }
+}
